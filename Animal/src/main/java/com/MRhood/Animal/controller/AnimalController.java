@@ -29,7 +29,15 @@ public class AnimalController {
         return animalRepository.addAnimals(animals);
     }
 
-    //@PutMapping("/update")
+    @PutMapping("/update/{id}")
+    public String updateAnimal(@PathVariable int id, @RequestBody Animal animal){
+        return animalRepository.updateAnimal(id,animal);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteAnimal(@PathVariable int id){
+        return animalRepository.deleteAnimal(id);
+    }
 
 
 }
