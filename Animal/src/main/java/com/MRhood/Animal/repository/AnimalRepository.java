@@ -16,25 +16,25 @@ public class AnimalRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<Animal> getAll(){
-        return jdbcTemplate.query("SELECT id,aname,age FROM animal ", BeanPropertyRowMapper.newInstance(Animal.class));
+        return jdbcTemplate.query("SELECT id,a_name,age FROM animal ", BeanPropertyRowMapper.newInstance(Animal.class));
     }
 
     public Animal getSingle(int id) {
         try {
-            return jdbcTemplate.queryForObject("SELECT id,aname,age FROM animal WHERE id=?", BeanPropertyRowMapper.newInstance(Animal.class), id);
+            return jdbcTemplate.queryForObject("SELECT id,a_name,age FROM animal WHERE id=?", BeanPropertyRowMapper.newInstance(Animal.class), id);
         }catch (IncorrectResultSizeDataAccessException incorrectResultSizeDataAccessException){
             return null;
         }
     }
 
     public String addAnimals(List<Animal> animals) {
-        animals.forEach(animal -> jdbcTemplate.update("INSERT INTO animal (aname, age) VALUES (?, ?)", animal.getAname(), animal.getAge()));
+        animals.forEach(animal -> jdbcTemplate.update("INSERT INTO animal (a_name, age) VALUES (?, ?)", animal.getA_name(), animal.getAge()));
         return "Success";
     }
 
     public String updateAnimal(Animal animal){
-        jdbcTemplate.update("UPDATE animal SET aname=?, age=? WHERE id=?",
-                        animal.getAname(),animal.getAge(),animal.getId());
+        jdbcTemplate.update("UPDATE animal SET a_name=?, age=? WHERE id=?",
+                        animal.getA_name(),animal.getAge(),animal.getId());
         return "Updated";
     }
 

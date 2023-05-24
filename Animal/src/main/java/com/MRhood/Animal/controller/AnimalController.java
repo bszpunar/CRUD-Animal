@@ -35,7 +35,7 @@ public class AnimalController {
         Animal animalT = animalRepository.getSingle(id);
 
         if(animalT != null){
-            animalT.setAname(animal.getAname());
+            animalT.setA_name(animal.getA_name());
             animalT.setAge(animal.getAge());
             return animalRepository.updateAnimal(animalT);
         }else {
@@ -50,7 +50,7 @@ public class AnimalController {
         Animal animalT = animalRepository.getSingle(id);
 
         if(animalT != null){
-            if(animal.getAname() != null) animalT.setAname(animal.getAname());
+            if(animal.getA_name() != null) animalT.setA_name(animal.getA_name());
             if(animal.getAge() > 0) animalT.setAge(animal.getAge());
 
             return animalRepository.updateAnimal(animalT);

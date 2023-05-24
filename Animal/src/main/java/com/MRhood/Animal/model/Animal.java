@@ -7,6 +7,6 @@ import lombok.*;
 @NoArgsConstructor
 public class Animal {
     private int id;
-    private String aname;
+    private String a_name;
     private int age;
 }
