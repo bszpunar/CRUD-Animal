@@ -2,6 +2,7 @@ package com.MRhood.Animal.repository;
 
 import com.MRhood.Animal.model.Animal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,11 @@ public class AnimalRepository {
     }
 
     public Animal getSingle(int id) {
-        return jdbcTemplate.queryForObject("SELECT id,aname,age FROM animal WHERE id=?", BeanPropertyRowMapper.newInstance(Animal.class), id);
+        try {
+            return jdbcTemplate.queryForObject("SELECT id,aname,age FROM animal WHERE id=?", BeanPropertyRowMapper.newInstance(Animal.class), id);
+        }catch (IncorrectResultSizeDataAccessException incorrectResultSizeDataAccessException){
+            return null;
+        }
     }
 
     public String addAnimals(List<Animal> animals) {
@@ -27,15 +32,11 @@ public class AnimalRepository {
         return "Success";
     }
 
-    public String updateAnimal(int id,Animal animal){
-
-        jdbcTemplate.update("UPDATE animal SET id=?, aname=?, age=? WHERE id=?",
-                        animal.getId(),animal.getAname(),animal.getAge(),id);
-
+    public String updateAnimal(Animal animal){
+        jdbcTemplate.update("UPDATE animal SET aname=?, age=? WHERE id=?",
+                        animal.getAname(),animal.getAge(),animal.getId());
         return "Updated";
-
     }
-
 
     public String deleteAnimal(int id) {
         jdbcTemplate.update("DELETE FROM animal WHERE id=?", id);

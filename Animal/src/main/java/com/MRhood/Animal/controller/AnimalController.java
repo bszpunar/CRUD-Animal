@@ -30,12 +30,38 @@ public class AnimalController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateAnimal(@PathVariable int id, @RequestBody Animal animal){
-        return animalRepository.updateAnimal(id,animal);
+    public String updateAnimal(@PathVariable("id") int id, @RequestBody Animal animal){
+
+        Animal animalT = animalRepository.getSingle(id);
+
+        if(animalT != null){
+            animalT.setAname(animal.getAname());
+            animalT.setAge(animal.getAge());
+            return animalRepository.updateAnimal(animalT);
+        }else {
+            return "Animal does not exist !";
+        }
+
+    }
+
+    @PatchMapping("/update/{id}")
+    public String partiallyUpdate(@PathVariable int id, @RequestBody Animal animal){
+
+        Animal animalT = animalRepository.getSingle(id);
+
+        if(animalT != null){
+            if(animal.getAname() != null) animalT.setAname(animal.getAname());
+            if(animal.getAge() > 0) animalT.setAge(animal.getAge());
+
+            return animalRepository.updateAnimal(animalT);
+        }else{
+            return "Animal does not exist !";
+        }
+
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteAnimal(@PathVariable int id){
+    public String deleteAnimal(@PathVariable("id") int id){
         return animalRepository.deleteAnimal(id);
     }
 
